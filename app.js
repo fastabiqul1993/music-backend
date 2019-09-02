@@ -2,6 +2,7 @@ require("dotenv/config");
 const express = require("express"); //import
 const logger = require("morgan");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const routerRoot = require("./routes/root");
 
 const app = express();
@@ -12,6 +13,7 @@ app.listen(port, () => {
   console.log(`Server is running in ${nodeEnv} Mode on port ${port}`);
 });
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

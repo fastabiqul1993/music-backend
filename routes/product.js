@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const {
   findProduct,
-  findProductByCategory,
-  findProductByName,
   findProductById,
   createProduct,
   patchProduct,
@@ -11,10 +9,8 @@ const {
 } = require("../controllers/product");
 
 router.get("/", findProduct);
-router.get("/category", findProductByCategory);
-router.get("/name", findProductByName);
-router.get("/:id", findProductById);
 router.post("/", createProduct);
+router.get("/:id", findProductById);
 router.patch("/:id", patchProduct);
 router.delete("/:id", deleteProduct);
 

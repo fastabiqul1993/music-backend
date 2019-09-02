@@ -6,53 +6,20 @@ const { getOffset } = require("../helpers/controller");
 
 module.exports = {
   findProduct: (req, res) => {
-    const { page, limit } = req.query;
+    const { page, limit, order, search, CategoryId } = req.query;
     const limited = limit ? limit : 8;
     const offset = page ? getOffset(page, limited) : 0;
-
-    Product.findAndCountAll({ limit: limited, offset })
-      .then(response => {
-        res.json({ response, limit, offset });
-      })
-      .catch(err => {
-        res.json({ err });
-      });
-  },
-
-  findProductByCategory: (req, res) => {
-    const { page, limit, CategoryId } = req.query;
-    const limited = limit ? limit : 8;
-    const offset = page ? getOffset(page, limited) : 0;
+    const orderBy = order ? order : "DESC";
+    const searched = search ? search : "";
 
     Product.findAndCountAll({
-      where: {
-        CategoryId: {
-          [Op.is]: CategoryId
-        }
-      },
       limit: limited,
-      offset
+      offset,
+      order: [["createdAt", orderBy]],
+      where: { name: { [Op.like]: `%${searched}%` }, CategoryId }
     })
       .then(response => {
         res.json({ response, limit, offset });
-      })
-      .catch(err => {
-        res.json({ err });
-      });
-  },
-
-  findProductByName: (req, res) => {
-    const { search } = req.body;
-
-    Product.findAndCountAll({
-      where: {
-        name: {
-          [Op.like]: `%${search}%`
-        }
-      }
-    })
-      .then(response => {
-        res.json({ response });
       })
       .catch(err => {
         res.json({ err });
@@ -70,8 +37,6 @@ module.exports = {
         res.json({ err });
       });
   },
-
-  findProductById: (req, res) => {},
 
   createProduct: (req, res) => {
     const {
