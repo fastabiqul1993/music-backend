@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
-const { Product } = require("../models");
+const { Product, Branch, Category } = require("../models");
 const { getOffset } = require("../helpers/controller");
 
 module.exports = {
@@ -16,7 +16,8 @@ module.exports = {
       limit: limited,
       offset,
       order: [["createdAt", orderBy]],
-      where: { name: { [Op.like]: `%${searched}%` }, CategoryId }
+      where: { name: { [Op.like]: `%${searched}%` }, CategoryId },
+      include: [{ model: Branch }, { model: Category }]
     })
       .then(response => {
         res.json({ response, limit, offset });
@@ -29,7 +30,10 @@ module.exports = {
   findProductById: (req, res) => {
     const { id } = req.params;
 
-    Product.findByPk(id)
+    Product.findOne({
+      where: { id },
+      include: [{ model: Branch }, { model: Category }]
+    })
       .then(response => {
         res.json({ response });
       })
@@ -37,6 +41,9 @@ module.exports = {
         res.json({ err });
       });
   },
+
+  //   CategoryId: "1"
+  // branch: "3"
 
   createProduct: (req, res) => {
     const {
@@ -46,7 +53,7 @@ module.exports = {
       price,
       img,
       BranchId,
-      categoryId
+      CategoryId
     } = req.body;
 
     Product.create({
@@ -56,7 +63,7 @@ module.exports = {
       price,
       img,
       BranchId,
-      categoryId
+      CategoryId
     })
       .then(response => {
         res.json({ response });
