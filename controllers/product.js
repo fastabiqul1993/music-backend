@@ -7,16 +7,17 @@ const { getOffset } = require("../helpers/controller");
 module.exports = {
   findProduct: (req, res) => {
     const { page, limit, order, search, CategoryId } = req.query;
-    const limited = limit ? limit : 8;
+    const limited = limit ? limit : 4;
     const offset = page ? getOffset(page, limited) : 0;
     const orderBy = order ? order : "DESC";
-    const searched = search ? search : "";
 
     Product.findAndCountAll({
       limit: limited,
       offset,
       order: [["createdAt", orderBy]],
-      where: { name: { [Op.like]: `%${searched}%` }, CategoryId },
+      where: {
+        [Op.or]: [{ name: { [Op.like]: `%${search}%` } }, { CategoryId }]
+      },
       include: [{ model: Branch }, { model: Category }]
     })
       .then(response => {
