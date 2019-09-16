@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 const { Product, Branch, Category } = require("../models");
-const { getOffset } = require("../helpers/controller");
+const { getOffset, responses } = require("../helpers/helper");
 
 module.exports = {
   findProduct: (req, res) => {
@@ -21,10 +21,10 @@ module.exports = {
       include: [{ model: Branch }, { model: Category }]
     })
       .then(response => {
-        res.json({ response, limit, offset });
+        responses(res, response, 302);
       })
       .catch(err => {
-        res.json({ err });
+        responses(res, err, 400);
       });
   },
 
@@ -36,15 +36,12 @@ module.exports = {
       include: [{ model: Branch }, { model: Category }]
     })
       .then(response => {
-        res.json({ response });
+        responses(res, response, 302);
       })
       .catch(err => {
-        res.json({ err });
+        responses(res, err, 400);
       });
   },
-
-  //   CategoryId: "1"
-  // branch: "3"
 
   createProduct: (req, res) => {
     const {
@@ -67,10 +64,10 @@ module.exports = {
       CategoryId
     })
       .then(response => {
-        res.json({ response });
+        responses(res, response, 201);
       })
       .catch(err => {
-        res.json({ err });
+        responses(res, err, 400);
       });
   },
 
@@ -87,10 +84,10 @@ module.exports = {
       { where: { id } }
     )
       .then(response => {
-        res.json({ response });
+        responses(res, response, 301);
       })
       .catch(err => {
-        res.json({ err });
+        responses(res, err, 400);
       });
   },
 
@@ -101,10 +98,10 @@ module.exports = {
       where: { id }
     })
       .then(response => {
-        res.json({ response });
+        responses(res, response, 202);
       })
       .catch(err => {
-        res.json({ err });
+        responses(res, err, 400);
       });
   }
 };

@@ -7,7 +7,7 @@ const routerRoot = require("./routes/root");
 
 const app = express();
 const port = process.env.PORT || 3000;
-const nodeEnv = process.env.NODE_ENV || "Production";
+const nodeEnv = process.env.NODE_ENV || "production";
 
 app.listen(port, () => {
   console.log(`Server is running in ${nodeEnv} Mode on port ${port}`);
