@@ -1,10 +1,14 @@
 const express = require("express");
+// const cart = require("./cart");
+const wishlist = require("./wishlist");
 const product = require("./product");
 const category = require("./category");
 const branch = require("./branch");
 const user = require("./user");
 const router = express.Router();
 
+// router.use("/cart", cart);
+router.use("/wishlist", wishlist);
 router.use("/product", product);
 router.use("/category", category);
 router.use("/branch", branch);

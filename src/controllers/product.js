@@ -24,7 +24,7 @@ module.exports = {
         responses(res, response, 302);
       })
       .catch(err => {
-        responses(res, err, 400);
+        responses(res, null, 400, err);
       });
   },
 
@@ -39,7 +39,7 @@ module.exports = {
         responses(res, response, 302);
       })
       .catch(err => {
-        responses(res, err, 400);
+        responses(res, null, 400, err);
       });
   },
 
@@ -67,7 +67,7 @@ module.exports = {
         responses(res, response, 201);
       })
       .catch(err => {
-        responses(res, err, 400);
+        responses(res, null, 400, err);
       });
   },
 
@@ -87,7 +87,7 @@ module.exports = {
         responses(res, response, 301);
       })
       .catch(err => {
-        responses(res, err, 400);
+        responses(res, null, 400, err);
       });
   },
 
@@ -101,7 +101,7 @@ module.exports = {
         responses(res, response, 202);
       })
       .catch(err => {
-        responses(res, err, 400);
+        responses(res, null, 400, err);
       });
   }
 };
