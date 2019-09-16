@@ -1,9 +1,9 @@
 require("dotenv/config");
-const express = require("express"); //import
+const express = require("express");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const routerRoot = require("./routes/root");
+const routerRoot = require("./src/routes/root");
 
 const app = express();
 const port = process.env.PORT || 3000;
