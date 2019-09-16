@@ -7,8 +7,10 @@ const {
   patchProduct,
   deleteProduct
 } = require("../controllers/product");
+const { isAuth, accessToken } = require("../middleware/auth");
 
-router.get("/", findProduct);
+router.all("/*", isAuth);
+router.get("/", accessToken, findProduct);
 router.post("/", createProduct);
 router.get("/:id", findProductById);
 router.patch("/:id", patchProduct);
