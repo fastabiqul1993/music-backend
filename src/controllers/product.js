@@ -106,8 +106,8 @@ module.exports = {
       });
   },
   imageUpload: async (req, res) => {
-    const file = await req.file;
-    console.log(file);
+    const file = await req.file.buffer.toString("base64");
+    const uploadStr = "data:image/jpeg;base64," + file;
 
     cloudinary.config({
       cloud_name: process.env.CLOUD_NAME,
@@ -115,12 +115,22 @@ module.exports = {
       api_secret: process.env.API_SECRET
     });
 
-    cloudinary.uploader.upload(req.file, (err, result) => {
-      if (result) {
-        responses(res, result, 201);
-      } else if (err) {
-        responses(res, null, 400, err);
+    cloudinary.uploader.upload(
+      uploadStr,
+      {
+        overwrite: true,
+        invalidate: true,
+        width: 810,
+        height: 456,
+        crop: "fill"
+      },
+      (err, result) => {
+        if (result) {
+          responses(res, result, 201);
+        } else if (err) {
+          responses(res, null, 400, err);
+        }
       }
-    });
+    );
   }
 };
