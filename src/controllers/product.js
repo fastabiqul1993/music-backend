@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const cloudinary = require("cloudinary").v2;
 
 const { Product, Branch, Category } = require("../models");
 const { getOffset, responses } = require("../helpers/helper");
@@ -103,5 +104,23 @@ module.exports = {
       .catch(err => {
         responses(res, null, 400, err);
       });
+  },
+  imageUpload: async (req, res) => {
+    const file = await req.file;
+    console.log(file);
+
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET
+    });
+
+    cloudinary.uploader.upload(req.file, (err, result) => {
+      if (result) {
+        responses(res, result, 201);
+      } else if (err) {
+        responses(res, null, 400, err);
+      }
+    });
   }
 };
