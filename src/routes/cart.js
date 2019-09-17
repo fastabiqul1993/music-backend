@@ -9,9 +9,10 @@ const {
 const { isAuth, isUser } = require("../middleware/auth");
 
 router
-  .post("/", isAuth, isUser, addToCart)
-  .patch("/", isAuth, isUser, patchCart)
-  .delete("/", isAuth, isUser, deleteFromCart)
-  .get("/:id", isAuth, isUser, findCart);
+  .all("/*", isAuth, isUser)
+  .post("/", addToCart)
+  .patch("/", patchCart)
+  .delete("/", deleteFromCart)
+  .get("/:id", findCart);
 
 module.exports = router;
