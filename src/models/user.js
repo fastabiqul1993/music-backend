@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     User.hasMany(models.Wishlist);
     User.hasMany(models.Cart);
+    User.hasMany(models.Transaction);
   };
   return User;
 };
