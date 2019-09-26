@@ -8,8 +8,9 @@ const {
 const { isAuth, isUser } = require("../middleware/auth");
 
 router
-  .post("/", isAuth, isUser, addToWishlist)
-  .delete("/", isAuth, isUser, deleteFromWishlist)
-  .get("/:id", isAuth, isUser, findWishlist);
+  .all("/*", isAuth, isUser)
+  .post("/", addToWishlist)
+  .get("/:id", findWishlist)
+  .delete("/:id", deleteFromWishlist);
 
 module.exports = router;

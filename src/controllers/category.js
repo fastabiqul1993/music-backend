@@ -1,15 +1,16 @@
 const { Category } = require("../models");
 const { responses } = require("../helpers/helper");
+
 module.exports = {
   findCategory: (req, res) => {
     const { limit, offset } = req.query;
 
     Category.findAndCountAll({ limit, offset })
       .then(response => {
-        res.json({ response });
+        responses(res, response, 200);
       })
       .catch(err => {
-        res.json({ err });
+        responses(res, null, 400, err);
       });
   },
   createCategory: (req, res) => {

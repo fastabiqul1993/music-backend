@@ -13,10 +13,10 @@ module.exports = {
       include: [{ model: Product }]
     })
       .then(response => {
-        responses(res, response, 302);
+        responses(res, response, 200);
       })
       .catch(err => {
-        response(res, null, 400, err);
+        responses(res, null, 400, err);
       });
   },
 
@@ -33,13 +33,13 @@ module.exports = {
   },
 
   deleteFromWishlist: (req, res) => {
-    const { UserId, ProductId } = req.body;
+    const { id } = req.params;
 
     Wishlist.destroy({
-      where: { [Op.and]: [{ UserId, ProductId }] }
+      where: { id }
     })
       .then(response => {
-        responses(res, response, 202);
+        responses(res, response, 200);
       })
       .catch(err => {
         responses(res, null, 400, err);

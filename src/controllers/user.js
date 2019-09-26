@@ -12,7 +12,7 @@ module.exports = {
     User.findOne({ where: { email } })
       .then(response => {
         if (!response) {
-          responses(res, response, 404);
+          responses(res, null, 404, "Something went wrong");
         } else {
           bcrypt.compare(password, response.password, (err, isCompare) => {
             if (!isCompare) {
@@ -33,27 +33,31 @@ module.exports = {
 
               const result = { id, name, role, access_token };
 
-              responses(res, result, 302);
+              responses(res, result, 201);
             }
           });
         }
       })
       .catch(err => {
-        responses(res, err, 400);
+        responses(res, null, 400, err);
       });
   },
   register: (req, res) => {
     const { name, email, password } = req.body;
 
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-      User.create({ name, email, password: hash, role: "user" })
-        .then(response => {
-          responses(res, response, 201);
-        })
-        .catch(err => {
-          responses(res, err, 400);
-        });
-    });
+    if (password) {
+      bcrypt.hash(password, saltRounds, (err, hash) => {
+        User.create({ name, email, password: hash, role: "user" })
+          .then(response => {
+            responses(res, response, 201);
+          })
+          .catch(err => {
+            responses(res, null, 400, err);
+          });
+      });
+    } else {
+      responses(res, null, 400, "Something went wrong");
+    }
   },
   registerAdmin: (req, res) => {
     const { name, email, password } = req.body;
@@ -67,13 +71,5 @@ module.exports = {
           responses(res, err, 400);
         });
     });
-
-    // User.create({ name, email, password: passwordHash, role: "admin" })
-    //   .then(response => {
-    //     responses(res, response, 201);
-    //   })
-    //   .catch(err => {
-    //     responses(res, err, 400);
-    //   });
   }
 };

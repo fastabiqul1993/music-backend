@@ -4,7 +4,7 @@ const multer = require("multer");
 const upload = multer();
 
 const {
-  imageUpload,
+  findForSearch,
   findProduct,
   findProductById,
   createProduct,
@@ -12,13 +12,14 @@ const {
   deleteProduct
 } = require("../controllers/product");
 const { isAuth, isAdmin } = require("../middleware/auth");
+const imgUpload = require("../middleware/upload");
 
 router
   .get("/", findProduct)
-  .post("/", isAuth, isAdmin, createProduct)
-  .post("/image", isAuth, isAdmin, upload.single("image"), imageUpload)
+  .get("/search", findForSearch)
+  .post("/", isAuth, isAdmin, upload.single("image"), imgUpload, createProduct)
   .get("/:id", findProductById)
-  .patch("/:id", isAuth, isAdmin, patchProduct)
+  .patch("/:id", isAuth, isAuth, patchProduct)
   .delete("/:id", isAuth, isAdmin, deleteProduct);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
-const { Cart, User, Product } = require("../models");
+const { Cart, Product } = require("../models");
 const { responses } = require("../helpers/helper");
 
 module.exports = {
@@ -13,10 +13,10 @@ module.exports = {
       include: [{ model: Product }]
     })
       .then(response => {
-        responses(res, response, 302);
+        responses(res, response, 202);
       })
       .catch(err => {
-        response(res, null, 400, err);
+        responses(res, null, 400, err);
       });
   },
 
@@ -38,11 +38,11 @@ module.exports = {
     Cart.update(
       { qty },
       {
-        where: { [Op.and]: [{ UserId, ProductId }] }
+        where: { UserId, [Op.and]: { ProductId } }
       }
     )
       .then(response => {
-        responses(res, response, 301);
+        responses(res, response, 201);
       })
       .catch(err => {
         responses(res, null, 400, err);

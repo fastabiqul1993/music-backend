@@ -11,7 +11,7 @@ const { isAuth, isUser } = require("../middleware/auth");
 router
   .all("/*", isAuth, isUser)
   .post("/", addToCart)
-  .patch("/", patchCart)
+  .put("/", patchCart)
   .delete("/", deleteFromCart)
   .get("/:id", findCart);
 
