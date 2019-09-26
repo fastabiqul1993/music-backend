@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "postgres",
-    "database": "aneka-musik",
-    "host": "127.0.0.1",
+    "username": "lhrpnvos",
+    "password": "AdjlxzlyaiY0fAObjdVy1Wxj9Dj1TTBo",
+    "database": "lhrpnvos",
+    "host": "salt.db.elephantsql.com",
     "dialect": "postgres",
     "operatorsAliases": false
   },
@@ -17,9 +17,9 @@
   },
   "production": {
     "username": "lhrpnvos",
-    "password": "qYHstfSQphL9E0t-JLPr1mZw1bp2SpKi",
+    "password": "AdjlxzlyaiY0fAObjdVy1Wxj9Dj1TTBo",
     "database": "lhrpnvos",
-    "host": "postgres://lhrpnvos:qYHstfSQphL9E0t-JLPr1mZw1bp2SpKi@salt.db.elephantsql.com:5432/lhrpnvos",
+    "host": "salt.db.elephantsql.com",
     "dialect": "postgres",
     "operatorsAliases": false
   }
